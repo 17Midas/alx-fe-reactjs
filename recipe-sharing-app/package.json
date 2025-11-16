@@ -1,4 +1,5 @@
 'zustand'
+"react", "react-dom"
 {
   "name": "recipe-sharing-app",
   "version": "0.0.1",
