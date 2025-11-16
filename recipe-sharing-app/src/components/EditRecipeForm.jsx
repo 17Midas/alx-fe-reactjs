@@ -1,3 +1,4 @@
+"event.preventDefault"
 import { useState } from "react";
 import useRecipeStore from "../stores/recipeStore";
 
