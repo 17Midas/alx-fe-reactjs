@@ -1,3 +1,4 @@
+import React from 'react';
 import UserInfo from './UserInfo';
 
 function ProfilePage() {
@@ -5,3 +6,4 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+
