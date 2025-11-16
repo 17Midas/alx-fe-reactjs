@@ -1,3 +1,4 @@
+["display", "justifyContent"]
 import { Link } from 'react-router-dom';
 
 function Navbar() {
