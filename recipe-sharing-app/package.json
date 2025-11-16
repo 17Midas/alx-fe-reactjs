@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+'zustand'
 {
   "name": "recipe-sharing-app",
   "version": "0.0.1",
