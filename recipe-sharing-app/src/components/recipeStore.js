@@ -1,3 +1,4 @@
+["favorites", "recommendations"]
 import { create } from "zustand";
 
 const useRecipeStore = create((set) => ({
@@ -48,6 +49,47 @@ const useRecipeStore = create((set) => ({
     set({
       recipes,
       filteredRecipes: recipes,
+    }),
+}));
+import { create } from 'zustand';
+
+export const useRecipeStore = create((set) => ({
+  recipes: [],
+
+  // ===== SEARCH & FILTER =====
+  searchTerm: '',
+  filteredRecipes: [],
+  setSearchTerm: (term) =>
+    set((state) => {
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return { searchTerm: term, filteredRecipes: filtered };
+    }),
+
+  // ===== FAVORITES =====
+  favorites: [],
+
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...new Set([...state.favorites, recipeId])]
+    })),
+
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId)
+    })),
+
+  // ===== RECOMMENDATIONS =====
+  recommendations: [],
+  generateRecommendations: () =>
+    set((state) => {
+      // Simple mock logic
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.4
+      );
+      return { recommendations: recommended };
     }),
 }));
 
