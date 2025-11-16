@@ -1,3 +1,4 @@
+["I love to visit New York, Paris, and Tokyo."]
 import React from "react";
 
 function MainContent() {
