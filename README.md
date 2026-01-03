@@ -1,3 +1,1 @@
-# alx-fe-reactjs
-React Project
-Form handling in React
+Implementing Form Handling in React with Controlled Components and Formik
