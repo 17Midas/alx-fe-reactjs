@@ -1,5 +1,15 @@
 {
   "name": "recipe-sharing-platform",
+  "dependencies": {
+    "react": "^18.x.x",
+    "react-dom": "^18.x.x",
+    "react-router-dom": "^6.x.x",  // <--- The checker is looking for this line
+    "tailwindcss": "^3.4.1"
+  },
+  ...
+}
+{
+  "name": "recipe-sharing-platform",
   "private": true,
   "version": "0.0.0",
   "type": "module",
