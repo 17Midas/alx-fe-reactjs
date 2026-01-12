@@ -1,63 +1,72 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TodoList from '../components/TodoList';
 
-test('renders TodoList with initial todos', () => {
-  render(<TodoList />);
+describe('TodoList Component', () => {
   
-  // Check for the header
-  expect(screen.getByText('Todo List')).toBeInTheDocument();
-  
-  // Check for initial items
-  expect(screen.getByText('Learn React')).toBeInTheDocument();
-  expect(screen.getByText('Build a Todo App')).toBeInTheDocument();
-});
+  test('renders TodoList component with initial todos', () => {
+    render(<TodoList />);
+    
+    // Check for title
+    expect(screen.getByText('Todo List')).toBeInTheDocument();
+    
+    // Check for initial static todos
+    expect(screen.getByText('Learn React')).toBeInTheDocument();
+    expect(screen.getByText('Build a Todo App')).toBeInTheDocument();
+  });
 
-test('allows users to add a new todo', () => {
-  render(<TodoList />);
-  
-  // Find input and button
-  const input = screen.getByPlaceholderText('Add a new todo');
-  const button = screen.getByText('Add Todo');
+  test('adds a new todo', () => {
+    render(<TodoList />);
+    
+    const input = screen.getByPlaceholderText('Add a new todo');
+    const button = screen.getByText('Add Todo');
 
-  // Simulate typing and clicking
-  fireEvent.change(input, { target: { value: 'New Test Todo' } });
-  fireEvent.click(button);
+    // Simulate user typing "New Task"
+    fireEvent.change(input, { target: { value: 'New Task' } });
+    
+    // Simulate form submission
+    fireEvent.click(button);
 
-  // Check if new item is in the document
-  expect(screen.getByText('New Test Todo')).toBeInTheDocument();
-});
+    // Verify "New Task" appears in the list
+    expect(screen.getByText('New Task')).toBeInTheDocument();
+  });
 
-test('allows users to toggle a todo', () => {
-  render(<TodoList />);
-  
-  const todoItem = screen.getByText('Learn React');
-  
-  // Initially not completed (no line-through)
-  expect(todoItem).toHaveStyle('text-decoration: none');
+  test('toggles a todo item', () => {
+    render(<TodoList />);
+    
+    const todoItem = screen.getByText('Learn React');
+    
+    // Check initial state (not completed)
+    expect(todoItem).toHaveStyle('text-decoration: none');
+    
+    // Click to toggle
+    fireEvent.click(todoItem);
+    
+    // Check new state (completed)
+    expect(todoItem).toHaveStyle('text-decoration: line-through');
+    
+    // Click again to untoggle
+    fireEvent.click(todoItem);
+    expect(todoItem).toHaveStyle('text-decoration: none');
+  });
 
-  // Click to toggle
-  fireEvent.click(todoItem);
-
-  // Should now be completed (line-through)
-  expect(todoItem).toHaveStyle('text-decoration: line-through');
-  
-  // Click again to un-toggle
-  fireEvent.click(todoItem);
-  expect(todoItem).toHaveStyle('text-decoration: none');
-});
-
-test('allows users to delete a todo', () => {
-  render(<TodoList />);
-  
-  const todoItem = screen.getByText('Master Tests');
-  const deleteButton = todoItem.querySelector('button'); // Or find by text 'Delete' associated with this item
-
-  // Verify it exists first
-  expect(todoItem).toBeInTheDocument();
-
-  // Click delete
-  fireEvent.click(deleteButton);
-
-  // Verify it is gone
-  expect(screen.queryByText('Master Tests')).not.toBeInTheDocument();
+  test('deletes a todo item', () => {
+    render(<TodoList />);
+    
+    // Verify item exists initially
+    const todoText = 'Build a Todo App';
+    expect(screen.getByText(todoText)).toBeInTheDocument();
+    
+    // Find the delete button associated with this item
+    // We look for the "Delete" button closest to the specific todo text
+    const todoItem = screen.getByText(todoText).closest('li');
+    const deleteButton = within(todoItem).getByText('Delete');
+    
+    // Click delete
+    fireEvent.click(deleteButton);
+    
+    // Verify item is removed
+    expect(screen.queryByText(todoText)).not.toBeInTheDocument();
+  });
 });
