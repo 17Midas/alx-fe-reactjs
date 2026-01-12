@@ -1,7 +1,9 @@
+// src/components/TodoList.jsx
 import { useState } from 'react';
 import AddTodoForm from './AddTodoForm';
 
 const TodoList = () => {
+  // exact initial state expected by tests
   const [todos, setTodos] = useState([
     { id: 1, text: 'Learn React', completed: false },
     { id: 2, text: 'Build a Todo App', completed: false },
@@ -37,15 +39,16 @@ const TodoList = () => {
             style={{
               textDecoration: todo.completed ? 'line-through' : 'none',
               cursor: 'pointer',
+              marginBottom: '10px'
             }}
           >
-            {todo.text}
+            <span role="button" style={{ marginRight: '10px' }}>{todo.text}</span>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 deleteTodo(todo.id);
               }}
-              style={{ marginLeft: '10px', color: 'red' }}
+              style={{ color: 'red' }}
             >
               Delete
             </button>
